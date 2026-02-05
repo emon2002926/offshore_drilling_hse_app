@@ -17,8 +17,17 @@ class SignUpRequestModel extends SignUpRequest{
       "email": email,
       "password": password,
       "phone": phone,
-      "date_of_birth": "1980-04-20",
-      "gender": "Male"   // enum: ["male", "female", "other"],
+      // "date_of_birth": "1980-04-20",
+      "date_of_birth": date_of_birth,
+      "gender": gender  // enum: ["male", "female", "other"],
     };
+  }
+  factory SignUpRequestModel.fromEntity(SignUpRequest entity){
+    return SignUpRequestModel(email: entity.email,
+        password: entity.password,
+        name: entity.name,
+        phone: entity.phone,
+        date_of_birth: entity.date_of_birth,
+        gender: entity.gender);
   }
 }

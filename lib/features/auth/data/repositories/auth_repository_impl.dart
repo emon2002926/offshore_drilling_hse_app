@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:offshore_drilling_hse_app/features/auth/domain/entities/sign_up_request.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/login_request.dart';
@@ -66,8 +67,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, ({User user, String token})>> signUp(
-      LoginRequest request) async {
+  Future<Either<Failure, ({String token, User user})>> signUp(SignUpRequest request) async{
+
     // Check internet connection
     if (!await networkInfo.isConnected) {
       return const Left(
@@ -110,8 +111,12 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     } catch (e) {
       return Left(ServerFailure('Unexpected error: $e'));
-    },
+    }
+
+
   }
+
+
 
 
 }
