@@ -8,6 +8,7 @@ import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import '../model/login_request_model.dart';
+import '../model/sign_up_request_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -77,8 +78,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     try {
-      final requestModel = LoginRequestModel.fromEntity(request);
-      final response = await remoteDataSource.login(requestModel);
+      final requestModel = SignUpRequestModel.fromEntity(request);
+      final response = await remoteDataSource.signUp(requestModel);
 
       if (response.success) {
         return Right((

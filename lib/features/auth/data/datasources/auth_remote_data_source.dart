@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:offshore_drilling_hse_app/features/auth/data/model/sign_up_request_model.dart';
 import '../../../../core/api/api_client.dart';
 import '../../../../core/constants/api_constants.dart';
 import '../model/login_request_model.dart';
@@ -8,6 +9,7 @@ import '../model/sign_up_response_model.dart';
 abstract class AuthRemoteDataSource {
   Future<LoginResponseModel> login(LoginRequestModel request);
 
+  Future<SignUpResponseModel> signUp(SignUpRequestModel request);
 
 }
 
@@ -46,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<SignUpResponseModel> signUp(LoginRequestModel request) async {
+  Future<SignUpResponseModel> signUp(SignUpRequestModel request) async {
     try {
       final response = await apiClient.dio.post(
         ApiConstants.loginEndpoint,
