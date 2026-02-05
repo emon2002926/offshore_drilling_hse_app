@@ -1,8 +1,6 @@
 import 'package:offshore_drilling_hse_app/features/auth/domain/entities/sign_up_request.dart';
 
 class SignUpRequestModel extends SignUpRequest{
-
-
   const SignUpRequestModel({
     required super.email,
     required super.password,
