@@ -1,19 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
-import '../../../domain/entities/login_request.dart';
-import '../../../domain/entities/user.dart';
-import '../../../domain/usecases/login_usecase.dart';
+import '../../../data/model/login_request.dart';
+import '../../../data/model/user.dart';
+import '../../../data/repositories/auth_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final LoginUseCase loginUseCase;
 
-  LoginBloc({required this.loginUseCase}) : super(const LoginInitial()) {
+
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final AuthRepository repository;
+
+  LoginBloc(this.repository) : super(LoginInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
     on<LoginReset>(_onLoginReset);
   }
@@ -22,25 +21,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonPressed event,
       Emitter<LoginState> emit,
       ) async {
-    emit(const LoginLoading());
+    emit(LoginLoading());
 
-    final request = LoginRequest(
-      email: event.email,
-      password: event.password,
-    );
+    try {
+      final request = LoginRequest(
+        email: event.email,
+        password: event.password,
+      );
 
-    final result = await loginUseCase(request);
+      final response = await repository.login(request);
 
-    result.fold(
-          (failure) => emit(LoginFailure(failure.message)),
-          (data) => emit(LoginSuccess(user: data.user, token: data.token)),
-    );
+      if (response.success && response.user != null && response.token != null) {
+        emit(LoginSuccess(
+          user: response.user!,
+          token: response.token!,
+        ));
+      } else {
+        emit(LoginFailure(response.message));
+      }
+    } catch (e) {
+      emit(LoginFailure(e.toString()));
+    }
   }
 
-  void _onLoginReset(
-      LoginReset event,
-      Emitter<LoginState> emit,
-      ) {
-    emit(const LoginInitial());
+  void _onLoginReset(LoginReset event, Emitter<LoginState> emit) {
+    emit(LoginInitial());
   }
 }

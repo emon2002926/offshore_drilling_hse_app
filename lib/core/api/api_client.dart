@@ -2,31 +2,26 @@ import 'package:dio/dio.dart';
 import '../constants/api_constants.dart';
 
 class ApiClient {
-  late final Dio _dio;
+  late final Dio dio;
 
   ApiClient() {
-    _dio = Dio(
+    dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
       ),
     );
 
-    // Add interceptors for logging
-    _dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestBody: true,
-        responseBody: true,
-        error: true,
-      ),
-    );
+    // Add logging
+    dio.interceptors.add(LogInterceptor(
+      request: true,
+      requestBody: true,
+      responseBody: true,
+      error: true,
+    ));
   }
-
-  Dio get dio => _dio;
 }

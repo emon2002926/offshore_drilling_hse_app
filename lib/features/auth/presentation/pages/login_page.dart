@@ -49,9 +49,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
@@ -61,8 +59,7 @@ class _LoginViewState extends State<LoginView> {
                 backgroundColor: Colors.green,
               ),
             );
-            // Navigate to home screen
-            // Navigator.of(context).pushReplacement(...);
+            // Navigate to home
           } else if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -81,11 +78,7 @@ class _LoginViewState extends State<LoginView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 48),
-                  const Icon(
-                    Icons.lock_outline,
-                    size: 80,
-                    color: Colors.blue,
-                  ),
+                  const Icon(Icons.lock_outline, size: 80, color: Colors.blue),
                   const SizedBox(height: 48),
                   TextFormField(
                     controller: _emailController,
@@ -134,14 +127,9 @@ class _LoginViewState extends State<LoginView> {
                         ? const SizedBox(
                       height: 20,
                       width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                        : const Text(
-                      'Login',
-                      style: TextStyle(fontSize: 16),
-                    ),
+                        : const Text('Login', style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
